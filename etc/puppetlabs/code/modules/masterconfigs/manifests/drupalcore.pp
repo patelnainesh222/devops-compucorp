@@ -2,8 +2,10 @@ class masterconfigs::drupalcore {
 
           $drupal_version = '7.51'
 
-          file { '/opt/drupalcore': ensure => directory,
-		require => Service['mariadb'], }
+          file { '/opt/drupalcore': 
+		ensure => directory,
+		require => Service['mariadb'],
+		}
 
           exec { 'get-drupal':
             command => "/bin/wget http://ftp.drupal.org/files/projects/drupal-${drupal_version}.tar.gz -P /opt/drupalcore",

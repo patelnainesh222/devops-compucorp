@@ -13,29 +13,32 @@ class masterconfigs::nginxsetup {
           source  => "puppet:///modules/masterconfigs/nginx.conf",
 	  require => Package['nginx'],
         }
-          exec { 'change-hostname-nginx':
-            	command => "/bin/sed -i 's/hostname/`/bin/curl -s http://169.254.169.254/latest/meta-data/public-hostname`/g' /etc/nginx/nginx.conf",
-                require => File['nginx.conf'],
-          }
 
           file { '/etc/nginx/ssl':
             ensure  => directory,
             mode    => '600',
-	    require => Package['nginx'],
+	    require => File['nginx.conf'],
           }
 
           exec { 'generate-ssl-certs':
-            command => "/bin/openssl req -subj '/CN=`curl -s http://169.254.169.254/latest/meta-data/public-hostname`/O=CompuCorp/C=UK' -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx-selfsigned.key -out /etc/nginx/ssl/nginx-selfsigned.crt;openssl dhparam -out /etc/nginx/ssl/dhparam4096.pem 4096",
+            command => "/bin/cp /etc/pki/tls/certs/ca-bundle.trust.crt /etc/nginx/ssl/;/bin/openssl req -subj '/CN=ap-south-1.compute.amazonaws.com/O=CompuCorp/C=UK' -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/nginx/ssl/nginx-selfsigned.key -out /etc/nginx/ssl/nginx-selfsigned.crt;",
             cwd => "/etc/nginx/ssl",
 		require => File['/etc/nginx/ssl'],
           }
+
+        file { 'dhparam4096.pem':
+          path    => '/etc/nginx/ssl/dhparam4096.pem',
+          ensure  => file,
+          source  => "puppet:///modules/masterconfigs/dhparam4096.pem",
+          require => Exec['generate-ssl-certs'],
+        }
+
 
         #configure nginx
         service { 'nginx':
           name      => nginx,
           ensure    => running,
           enable    => true,
-	  require => Package['nginx'],
+	  require => File['dhparam4096.pem'],
         }
-
 }

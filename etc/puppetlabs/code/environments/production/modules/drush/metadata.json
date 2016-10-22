@@ -1,0 +1,34 @@
+{
+  "name": "previousnext-drush",
+  "version": "0.1.2",
+  "author": "PreviousNext",
+  "summary": "This module installs Drush, a command line utility for Drupal.",
+  "license": "MIT",
+  "source": "https://github.com/previousnext/puppet-drush",
+  "project_page": "https://github.com/previousnext/puppet-drush",
+  "issues_url": "https://github.com/previousnext/puppet-drush/issues",
+  "tags": [
+    "php",
+    "composer",
+    "drush"
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "12.04",
+        "14.04"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    }
+  ],
+  "dependencies": [
+    {"name":"willdurand/composer","version_requirement":">=1.1.1"}
+  ]
+}

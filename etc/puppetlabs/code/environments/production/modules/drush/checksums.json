@@ -1,0 +1,11 @@
+{
+  "LICENSE": "4e97f08f69906816a6869a702fa52642",
+  "README.md": "eaec3a0a1f017659aa54c77e2daa7367",
+  "Rakefile": "58b6b81c99a7ffab0df30a61148e09ba",
+  "manifests/drush.pp": "0be0ee1fef16f356eda854080a1e0e43",
+  "manifests/init.pp": "ca8fd96461ad2438c79687057dd20136",
+  "metadata.json": "ffbcf651446b117d3b63cde485a52425",
+  "spec/classes/drush_spec.rb": "53acd470c6c9836e10999c03bae9d05f",
+  "spec/defines/drush_drush_spec.rb": "4c74f6837aa5635f6dfe2504b49a00a4",
+  "spec/spec_helper.rb": "0db89c9a486df193c0e40095422e19dc"
+}

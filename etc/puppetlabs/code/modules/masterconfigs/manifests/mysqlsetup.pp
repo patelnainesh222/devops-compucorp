@@ -8,12 +8,17 @@ class masterconfigs::mysqlsetup {
         # # override_options        => $override_options
         #}
 
+
+        package { 'mariadb-server': 
+		ensure => 'installed',
+		require => Service['nginx'],
+                }
+
         service { 'mariadb':
           name      => mariadb,
           ensure    => running,
           enable    => true,
-	  #before => File['/opt/drupalcore'],
-	  require => Service['nginx'],
+	  require => Package['mariadb-server'],
         }
 
         #create drupal database
@@ -25,6 +30,7 @@ class masterconfigs::mysqlsetup {
           charset => 'utf8',
           collate => 'utf8_general_ci',
 	  require => Service['mariadb'],
+	  before => File['/opt/drupalcore'],
         }
 
         #create civicrm database
@@ -36,6 +42,7 @@ class masterconfigs::mysqlsetup {
           charset => 'utf8',
           collate => 'utf8_general_ci',
 	  require => Service['mariadb'],
+	  before => File['/opt/civicrm'],
         }
 
         #grant select on civicrm to drupal
@@ -46,6 +53,7 @@ class masterconfigs::mysqlsetup {
           table      => 'civicrm.*',
           user       => 'drupal@localhost',
 	  require => Service['mariadb'],
+	  before => File['/opt/civicrm'],
         }
 
 }
